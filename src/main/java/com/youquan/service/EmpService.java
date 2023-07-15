@@ -1,4 +1,28 @@
 package com.youquan.service;
 
+import com.youquan.common.PageBean;
+import com.youquan.pojo.Emp;
+
+import java.time.LocalDate;
+
 public interface EmpService {
+    /**
+     * 条件查询员工数据
+     *
+     * @param name     姓名
+     * @param gender   性别
+     * @param begin    入职时间的开始时间
+     * @param end      入职时间的结束时间
+     * @param page     页码
+     * @param pageSize 每页记录数
+     * @return PageBean<Emp>
+     */
+    PageBean<Emp> list(String name, Short gender, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+
+    /**
+     * 批量删除员工数据
+     *
+     * @param ids 员工ID列表
+     */
+    void delete(Integer[] ids);
 }
