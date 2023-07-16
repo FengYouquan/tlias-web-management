@@ -10,6 +10,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/depts")
 public class DeptController {
     private final DeptService deptService;
 
@@ -24,7 +25,7 @@ public class DeptController {
      *
      * @return Result<List < Dept>>
      */
-    @GetMapping("/depts")
+    @GetMapping
     public Result<List<Dept>> list() {
         log.info("查询所有部门数据");
         List<Dept> depts = deptService.list();
@@ -37,7 +38,7 @@ public class DeptController {
      * @param id 部门ID
      * @return Result<?>
      */
-    @DeleteMapping("/depts/{id}")
+    @DeleteMapping("/{id}")
     public Result<?> removeById(@PathVariable Integer id) {
         log.info("根据ID删除部门数据,id:{}", id);
         deptService.removeById(id);
@@ -50,7 +51,7 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result<?>
      */
-    @PostMapping("/depts")
+    @PostMapping
     public Result<?> save(@RequestBody Dept dept) {
         log.info("添加部门数据，dept:{}", dept);
         deptService.save(dept);
@@ -63,7 +64,7 @@ public class DeptController {
      * @param id 部门ID
      * @return Result<Dept>
      */
-    @GetMapping("/depts/{id}")
+    @GetMapping("/{id}")
     public Result<Dept> getById(@PathVariable Integer id) {
         log.info("根据ID查询部门数据,id:{}", id);
         Dept dept = deptService.getById(id);
@@ -76,7 +77,7 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result
      */
-    @PutMapping("/depts")
+    @PutMapping
     public Result<?> update(@RequestBody Dept dept) {
         log.info("修改部门数据，dept:{}", dept);
         deptService.update(dept);

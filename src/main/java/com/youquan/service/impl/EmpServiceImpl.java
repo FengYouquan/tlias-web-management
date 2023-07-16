@@ -9,6 +9,7 @@ import com.youquan.service.EmpService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -32,9 +33,34 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public void delete(Integer[] ids) {
-        if (ids.length <= 0) {
-            return;
-        }
         empMapper.delete(ids);
+    }
+
+    @Override
+    public void save(Emp emp) {
+        emp.setPassword("123456");
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.save(emp);
+    }
+
+    @Override
+    public Emp getById(Integer id) {
+        if (id == null) {
+            return null;
+        }
+        return empMapper.getById(id);
+    }
+
+    @Override
+    public void update(Emp emp) {
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.update(emp);
+    }
+
+    @Override
+    public Emp login(String username, String password) {
+        Emp emp = empMapper.login(username, password);
+        return emp;
     }
 }

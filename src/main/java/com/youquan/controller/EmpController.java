@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 @Slf4j
 @RestController
+@RequestMapping("/emps")
 public class EmpController {
     private final EmpService empService;
 
@@ -31,7 +32,7 @@ public class EmpController {
      * @param pageSize 每页记录数
      * @return Result<PageBean < Emp>>
      */
-    @GetMapping("/emps")
+    @GetMapping
     public Result<PageBean<Emp>> list(String name,
                                       Short gender,
                                       @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
@@ -49,10 +50,49 @@ public class EmpController {
      * @param ids 员工ID列表
      * @return Result<?>
      */
-    @DeleteMapping("/emps/{ids}")
+    @DeleteMapping("/{ids}")
     public Result<?> delete(@PathVariable Integer[] ids) {
         log.info("批量删除员工数据，ids：{}", Arrays.toString(ids));
         empService.delete(ids);
+        return Result.success();
+    }
+
+    /**
+     * 新增员工数据
+     *
+     * @param emp 员工数据
+     * @return Result
+     */
+    @PostMapping
+    public Result<?> save(@RequestBody Emp emp) {
+        log.info("新增员工数据，emp:{}", emp);
+        empService.save(emp);
+        return Result.success();
+    }
+
+    /**
+     * 根据ID查询员工数据
+     *
+     * @param id 员工ID
+     * @return Emp 员工数据
+     */
+    @GetMapping("/{id}")
+    public Result<Emp> getById(@PathVariable Integer id) {
+        log.info("根据ID查询员工数据，id：{}", id);
+        Emp emp = empService.getById(id);
+        return Result.success(emp);
+    }
+
+    /**
+     * 更新员工数据
+     *
+     * @param emp 员工数据
+     * @return Result
+     */
+    @PutMapping
+    public Result<?> update(@RequestBody Emp emp) {
+        log.info("更新员工数据，emp：{}", emp);
+        empService.update(emp);
         return Result.success();
     }
 }

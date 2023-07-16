@@ -25,4 +25,35 @@ public interface EmpService {
      * @param ids 员工ID列表
      */
     void delete(Integer[] ids);
+
+    /**
+     * 新增员工数据
+     *
+     * @param emp 员工数据
+     */
+    void save(Emp emp);
+
+    /**
+     * 根据ID查询员工数据
+     *
+     * @param id 员工ID
+     * @return Emp 员工数据
+     */
+    Emp getById(Integer id);
+
+    /**
+     * 更新员工数据
+     *
+     * @param emp 员工数据
+     */
+    void update(Emp emp);
+
+    /**
+     * 登录校验
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return Emp 员工数据
+     */
+    Emp login(String username, String password);
 }
