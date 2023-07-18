@@ -56,6 +56,6 @@ public interface EmpMapper {
      * @param password 密码
      * @return Emp 用户数据
      */
-    @Select("select * from emp where username = #{username} and password = #{password}")
-    Emp login(String username, String password);
+    @Select("select id, username, name, gender from emp where username = #{username} and password = #{password}")
+    Emp getByUsernameAndPassword(String username, String password);
 }

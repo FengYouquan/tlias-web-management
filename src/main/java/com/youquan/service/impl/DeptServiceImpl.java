@@ -28,6 +28,12 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public void save(Dept dept) {
+
+        Integer count = deptMapper.countByName(dept.getName());
+        if (count > 0) {
+            throw new RuntimeException("部门已经存在");
+        }
+
         dept.setCreateTime(LocalDateTime.now());
         dept.setUpdateTime(LocalDateTime.now());
         deptMapper.save(dept);

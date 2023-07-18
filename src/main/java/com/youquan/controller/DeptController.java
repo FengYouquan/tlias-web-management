@@ -28,6 +28,10 @@ public class DeptController {
     @GetMapping
     public Result<List<Dept>> list() {
         log.info("查询所有部门数据");
+
+        // 校验令牌的合法性
+
+
         List<Dept> depts = deptService.list();
         return Result.success(depts);
     }

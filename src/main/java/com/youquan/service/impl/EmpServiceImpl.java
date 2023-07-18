@@ -60,7 +60,6 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Emp login(String username, String password) {
-        Emp emp = empMapper.login(username, password);
-        return emp;
+        return empMapper.getByUsernameAndPassword(username, password);
     }
 }

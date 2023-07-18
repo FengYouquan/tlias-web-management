@@ -41,4 +41,7 @@ public interface DeptMapper {
      */
     @Update("update dept set name = #{name},update_time = #{updateTime} where id = #{id}")
     void update(Dept dept);
+
+    @Select("select count(*) from dept where name = #{name}")
+    Integer countByName(String name);
 }
