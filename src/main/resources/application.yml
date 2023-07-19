@@ -29,8 +29,8 @@ mybatis:
 aliyun:
   oss:
     endpoint: https://oss-cn-shanghai.aliyuncs.com
-    accessKeyId: LTAI5tLWDHehrbNiP8ju91n4
-    accessKeySecret: 0JBpHsQz3kzmqlWbkZRUBzZS6vRF3V
+    accessKeyId: fengyouquan_new
+    accessKeySecret: fengyouquan_new
     securityToken: CAISnwJ1q6Ft5B2yfSjIr5b4fN/51aZSwpKSdnHcsFFjVeZdt6H41jz2IHtOfHBgAOsZsf41lWBZ7/oalqJ9RplKVEvZdNZ56MzSOd4lntOT1fau5Jko1be0ewHKeQKZsebWZ+LmNpy/Ht6md1HDkAJq3LL+bk/Mdle5MJqP+/kFC9MMRVuAcCZhDtVbLRcYgq18D3bKMuu3ORPHm3fZCFES2jBxkmRi86+ysIP+phPVlw/90fRH5dazcJapacZ9O4pmTt6zm8Fmf6/Z1CN86gINtoUO1fcdpGuX4Y7NWgIBskzWbdC5qIM/cFVLAYEhALNBofTGkvl1h/fejYyfyWwWZrsNCnSGH9//mpGVSLLwao4jG6zyPnPWycBl2VtyBubnCxqAAVlZVBAYNdtqmuZ7jZxCJeOnOHIHuGa64xKGMl3QjhCGERvVo3UHsnzlJ0uFa4Fx/0r+YL/Jn87vwLcxXtm6BG2LLK8FZZabLYtwIaJnSYEr9nnLdKblDZmQEbU1gfFIv57cMMndtxkmgY0nLQWiSisZyOvNHD3QFqFJesmZvxVE
     bucketName: fengyouquan
 
