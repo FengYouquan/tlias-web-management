@@ -7,9 +7,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * @author Fengyouquan
+ */
 public class JwtUtils {
     // 签名密钥
-    private static final String SIGN_KEY = "fengyouquan";
+    private static final String SIGN_KEY = "fengyouquanfengyouquanfengyouquanfengyouquanfengyouquanfengyouquan";
     // 有效时间
     private static final Long EXPIRE = 43200000L;
 

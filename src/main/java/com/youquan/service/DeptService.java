@@ -1,5 +1,6 @@
 package com.youquan.service;
 
+import com.youquan.anno.TimeAnnotation;
 import com.youquan.pojo.Dept;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public interface DeptService {
      *
      * @return List<Dept> 部门数据列表
      */
+    @TimeAnnotation
     List<Dept> list();
 
     /**

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+/**
+ * @author Fengyouquan
+ */
 @Slf4j
 @RestController
 public class LoginController {
@@ -23,14 +26,14 @@ public class LoginController {
     @PostMapping("/login")
     private Result<?> login(@RequestBody HashMap<String, String> emp) {
         log.info("登录校验,emp:{}", emp);
-        Emp empDB = empService.login(emp.get("username"), emp.get("password"));
+        Emp empDb = empService.login(emp.get("username"), emp.get("password"));
 
-        if (empDB != null) {
+        if (empDb != null) {
             // 自定义信息
             HashMap<String, Object> claims = new HashMap<>();
-            claims.put("id", empDB.getId());
-            claims.put("username", empDB.getUsername());
-            claims.put("name", empDB.getName());
+            claims.put("id", empDb.getId());
+            claims.put("username", empDb.getUsername());
+            claims.put("name", empDb.getName());
 
             // 使用JWT工具类，生成身份令牌
             String jwt = JwtUtils.generateJwt(claims);

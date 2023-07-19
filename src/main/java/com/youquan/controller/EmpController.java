@@ -1,5 +1,6 @@
 package com.youquan.controller;
 
+import com.youquan.anno.OperateLog;
 import com.youquan.common.PageBean;
 import com.youquan.common.Result;
 import com.youquan.pojo.Emp;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+/**
+ * @author Fengyouquan
+ */
 @Slf4j
 @RestController
 @RequestMapping("/emps")
@@ -50,6 +54,7 @@ public class EmpController {
      * @param ids 员工ID列表
      * @return Result<?>
      */
+    @OperateLog
     @DeleteMapping("/{ids}")
     public Result<?> delete(@PathVariable Integer[] ids) {
         log.info("批量删除员工数据，ids：{}", Arrays.toString(ids));
@@ -63,6 +68,7 @@ public class EmpController {
      * @param emp 员工数据
      * @return Result
      */
+    @OperateLog
     @PostMapping
     public Result<?> save(@RequestBody Emp emp) {
         log.info("新增员工数据，emp:{}", emp);
@@ -89,6 +95,7 @@ public class EmpController {
      * @param emp 员工数据
      * @return Result
      */
+    @OperateLog
     @PutMapping
     public Result<?> update(@RequestBody Emp emp) {
         log.info("更新员工数据，emp：{}", emp);

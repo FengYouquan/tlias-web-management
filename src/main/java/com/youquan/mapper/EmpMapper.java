@@ -2,11 +2,15 @@ package com.youquan.mapper;
 
 import com.github.pagehelper.Page;
 import com.youquan.pojo.Emp;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 
+/**
+ * @author Fengyouquan
+ */
 @Mapper
 public interface EmpMapper {
     /**
@@ -58,4 +62,12 @@ public interface EmpMapper {
      */
     @Select("select id, username, name, gender from emp where username = #{username} and password = #{password}")
     Emp getByUsernameAndPassword(String username, String password);
+
+    /**
+     * 根据部门ID删除员工数据
+     *
+     * @param deptId 部门ID
+     */
+    @Delete("delete  from  emp where  dept_id = #{deptId}")
+    void deleteByDeptId(Integer deptId);
 }

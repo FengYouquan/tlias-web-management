@@ -5,6 +5,9 @@ import com.youquan.pojo.Emp;
 
 import java.time.LocalDate;
 
+/**
+ * @author Fengyouquan
+ */
 public interface EmpService {
     /**
      * 条件查询员工数据

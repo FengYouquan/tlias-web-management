@@ -1,22 +1,25 @@
 package com.youquan.controller;
 
+import com.youquan.anno.MyAnnotation;
+import com.youquan.anno.OperateLog;
 import com.youquan.common.Result;
 import com.youquan.pojo.Dept;
 import com.youquan.service.DeptService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Fengyouquan
+ */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/depts")
 public class DeptController {
     private final DeptService deptService;
-
-    public DeptController(DeptService deptService) {
-        this.deptService = deptService;
-    }
 
     // @RequestMapping(value = "/depts", method = RequestMethod.GET)
 
@@ -25,29 +28,35 @@ public class DeptController {
      *
      * @return Result<List < Dept>>
      */
+    @MyAnnotation
     @GetMapping
     public Result<List<Dept>> list() {
         log.info("查询所有部门数据");
-
-        // 校验令牌的合法性
-
 
         List<Dept> depts = deptService.list();
         return Result.success(depts);
     }
 
     /**
-     * 根据ID删除部门数据
+     * 根据部门ID删除部门数据
      *
      * @param id 部门ID
-     * @return Result<?>
+     * @return 操作结果
      */
+
+    @OperateLog
     @DeleteMapping("/{id}")
     public Result<?> removeById(@PathVariable Integer id) {
-        log.info("根据ID删除部门数据,id:{}", id);
+        // 记录日志，输出要删除的部门ID
+        log.info("根据ID删除部门数据，id:{}", id);
+
+        // 调用deptService的removeById方法，根据部门ID删除部门数据
         deptService.removeById(id);
+
+        // 返回成功的结果
         return Result.success();
     }
+
 
     /**
      * 添加部门数据
@@ -55,6 +64,7 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result<?>
      */
+    @OperateLog
     @PostMapping
     public Result<?> save(@RequestBody Dept dept) {
         log.info("添加部门数据，dept:{}", dept);
@@ -68,6 +78,7 @@ public class DeptController {
      * @param id 部门ID
      * @return Result<Dept>
      */
+    @MyAnnotation
     @GetMapping("/{id}")
     public Result<Dept> getById(@PathVariable Integer id) {
         log.info("根据ID查询部门数据,id:{}", id);
@@ -81,6 +92,7 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result
      */
+    @OperateLog
     @PutMapping
     public Result<?> update(@RequestBody Dept dept) {
         log.info("修改部门数据，dept:{}", dept);
