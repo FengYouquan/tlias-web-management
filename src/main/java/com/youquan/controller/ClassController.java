@@ -23,7 +23,7 @@ public class ClassController {
     private final ClassService classService;
 
     /**
-     * 保存班级信息的方法
+     * 添加班级信息的方法
      *
      * @param clazz 要保存的班级对象
      * @return 返回保存操作的结果

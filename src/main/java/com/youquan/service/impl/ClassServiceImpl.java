@@ -101,7 +101,16 @@ public class ClassServiceImpl implements ClassService {
             throw new ClassException("200", "开课时间和结课时间不合理，请检查后重试");
         }
 
-        //todo
+        // 检查数据库中是否已经存在同名的班级信息，如果存在则抛出异常
+        if (classMapper.countByName(clazz.getName()) > 0) {
+            throw new ClassException("200", "班级名称冲突，请检查后重试");
+        }
+
+        clazz.setUpdateTime(LocalDateTime.now());
+
+        if (!(classMapper.update(clazz) == 1)) {
+            throw new ClassException("500", "班级信息更新失败，请稍后再试");
+        }
     }
 
     @Override

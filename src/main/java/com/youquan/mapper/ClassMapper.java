@@ -58,4 +58,6 @@ public interface ClassMapper {
      * @return 返回符合条件的分页列表
      */
     Page<Clazz> list(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+
+    int update(Clazz clazz);
 }
