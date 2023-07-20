@@ -5,7 +5,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
 /**
  * @author Fengyouquan
  */
@@ -14,16 +13,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Emp {
+public class Clazz {
     private Integer id;
-    private String username;
-    private String password;
     private String name;
-    private Short gender;
-    private String image;
-    private Short job;
-    private LocalDate entrydate;
-    private Integer deptId;
+    private String classesNumber;
+    private LocalDate startTime;
+    private LocalDate finishTime;
+    private Integer empId;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+    private Emp emp;
 }
