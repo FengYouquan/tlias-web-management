@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youquan.mapper.ClassMapper">
+    <!--添加班级信息-->
+    <insert id="save">
+        insert into classes(name, classes_number, start_time, finish_time, emp_id, create_time, update_time)
+        values (#{name}, #{classesNumber}, #{startTime}, #{finishTime}, #{empId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--条件查询班级信息-->
+    <select id="list" resultMap="classes">
+        select classes.id,classes.name,classes_number,start_time,finish_time,emp.id,emp.name
+        from classes
+        left outer join emp on classes.emp_id = emp.id
+        <where>
+            <if test="name != null and name != '' ">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="begin != null">
+                and finish_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and finish_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+    <resultMap id="classes" type="com.youquan.pojo.Clazz">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="classes_number" property="classesNumber"/>
+        <result column="start_time" property="startTime"/>
+        <result column="finish_time" property="finishTime"/>
+        <association property="emp" javaType="com.youquan.pojo.Emp">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+</mapper>

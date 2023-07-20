@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/**
+ * @author Fengyouquan
+ */
 @Slf4j
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -55,8 +58,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // 如果Token合法，放行请求并记录日志
-        log.info("令牌合法，放行");
         return true;
     }
 }
