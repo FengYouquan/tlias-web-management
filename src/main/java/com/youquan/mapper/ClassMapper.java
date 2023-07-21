@@ -1,6 +1,7 @@
 package com.youquan.mapper;
 
 import com.github.pagehelper.Page;
+import com.youquan.pojo.ClassEmp;
 import com.youquan.pojo.Clazz;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -57,7 +58,22 @@ public interface ClassMapper {
      * @param pageSize 每页显示的数据条数，用于确定返回的数据数量
      * @return 返回符合条件的分页列表
      */
-    Page<Clazz> list(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+    Page<ClassEmp> list(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
 
+    /**
+     * 更新班级信息
+     *
+     * @param clazz 班级信息
+     * @return 受影响的行数
+     */
     int update(Clazz clazz);
+
+    /**
+     * 根据ID查询班级信息
+     *
+     * @param id 班级ID
+     * @return Clazz 班级信息对象
+     */
+    @Select("select id, name, classes_number, start_time, finish_time, emp_id, update_time from classes where id = #{id}")
+    Clazz getById(Integer id);
 }

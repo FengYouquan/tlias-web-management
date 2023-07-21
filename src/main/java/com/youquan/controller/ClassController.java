@@ -2,6 +2,7 @@ package com.youquan.controller;
 
 import com.youquan.common.PageBean;
 import com.youquan.common.Result;
+import com.youquan.pojo.ClassEmp;
 import com.youquan.pojo.Clazz;
 import com.youquan.service.ClassService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -82,14 +82,27 @@ public class ClassController {
      * @return 返回包含班级列表数据的分页结果对象
      */
     @GetMapping
-    public Result<PageBean<Clazz>> list(String name,
-                                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-                                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end,
-                                        @RequestParam(defaultValue = "1") Integer page,
-                                        @RequestParam(defaultValue = "5") Integer pageSize) {
+    public Result<PageBean<ClassEmp>> list(String name,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end,
+                                           @RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "5") Integer pageSize) {
         log.info("分页和条件查询班级数据，{},{},{},{},{}", page, pageSize, name, begin, end);
-        PageBean<Clazz> clazzPageBean = classService.list(name, begin, end, page, pageSize);
+        PageBean<ClassEmp> clazzPageBean = classService.list(name, begin, end, page, pageSize);
         return Result.success(clazzPageBean);
     }
 
+    /**
+     * 根据ID获取班级信息
+     *
+     * @param id 班级ID
+     * @return Result统一响应结果
+     */
+    @GetMapping("/{id}")
+    public Result<Clazz> getById(@PathVariable Integer id) {
+        log.info("根据ID获取班级信息，id:{}", id);
+        // 通过classService服务调用方法获取班级信息
+        Clazz clazz = classService.getById(id);
+        return Result.success(clazz);
+    }
 }

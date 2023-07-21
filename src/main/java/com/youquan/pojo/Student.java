@@ -2,7 +2,6 @@ package com.youquan.pojo;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -13,13 +12,16 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Clazz {
+public class Student {
     private Integer id;
     private String name;
-    private String classesNumber;
-    private LocalDate startTime;
-    private LocalDate finishTime;
-    private Integer empId;
+    private String studentNumber;
+    private Short gender;
+    private String phone;
+    private Short highestDegree;
+    private Integer classesId;
+    private Integer disciplineTimes;
+    private Integer disciplineScore;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

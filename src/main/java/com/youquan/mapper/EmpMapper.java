@@ -70,4 +70,7 @@ public interface EmpMapper {
      */
     @Delete("delete  from  emp where  dept_id = #{deptId}")
     void deleteByDeptId(Integer deptId);
+
+    @Select("select count(*) from emp where id = #{id}")
+    int countById(Integer id);
 }

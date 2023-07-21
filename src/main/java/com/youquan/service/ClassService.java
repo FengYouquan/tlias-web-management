@@ -1,9 +1,8 @@
 package com.youquan.service;
 
 import com.youquan.common.PageBean;
+import com.youquan.pojo.ClassEmp;
 import com.youquan.pojo.Clazz;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -42,5 +41,13 @@ public interface ClassService {
      * @param pageSize 每页显示的数据条数
      * @return 包含查询结果的PageBean对象
      */
-    PageBean<Clazz> list(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+    PageBean<ClassEmp> list(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+
+    /**
+     * 根据给定的id获取对应的班级对象
+     *
+     * @param id 需要查询的班级对象的唯一标识符
+     * @return 如果找到匹配的id, 则返回对应的班级对象；否则返回null。
+     */
+    Clazz getById(Integer id);
 }

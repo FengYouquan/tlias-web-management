@@ -1,5 +1,6 @@
 package com.youquan.service.impl;
 
+import com.youquan.anno.OperateLog;
 import com.youquan.mapper.DeptMapper;
 import com.youquan.mapper.EmpMapper;
 import com.youquan.pojo.Dept;
@@ -25,6 +26,7 @@ public class DeptServiceImpl implements DeptService {
         return deptMapper.list();
     }
 
+    @OperateLog
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeById(Integer id) {
@@ -35,6 +37,7 @@ public class DeptServiceImpl implements DeptService {
         empMapper.deleteByDeptId(id);
     }
 
+    @OperateLog
     @Override
     public void save(Dept dept) {
         // 查询数据库中是否已存在具有相同名称的部门
@@ -56,6 +59,7 @@ public class DeptServiceImpl implements DeptService {
         return deptMapper.getById(id);
     }
 
+    @OperateLog
     @Override
     public void update(Dept dept) {
         dept.setUpdateTime(LocalDateTime.now());

@@ -10,13 +10,13 @@
     </insert>
 
     <!--条件查询班级信息-->
-    <select id="list" resultMap="classes">
+    <select id="list" resultMap="class_emp">
         select classes.id,classes.name,classes_number,start_time,finish_time,emp.id as e_id,emp.name as e_name
         from classes
         left outer join emp on classes.emp_id = emp.id
         <where>
             <if test="name != null and name != '' ">
-                name like concat('%',#{name},'%')
+                classes.name like concat('%',#{name},'%')
             </if>
             <if test="begin != null">
                 and finish_time &gt;= #{begin}
@@ -26,7 +26,7 @@
             </if>
         </where>
     </select>
-    <resultMap id="classes" type="com.youquan.pojo.Clazz">
+    <resultMap id="class_emp" type="com.youquan.pojo.ClassEmp">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="classes_number" property="classesNumber"/>
@@ -46,12 +46,12 @@
                 name = #{name},
             </if>
             <if test="classesNumber != null and classesNumber != ''">
-                classes_number = #{classes_number},
+                classes_number = #{classesNumber},
             </if>
             <if test="startTime != null">
                 start_time = #{startTime},
             </if>
-            <if test="finish_time != null">
+            <if test="finishTime != null">
                 finish_time = #{finishTime},
             </if>
             <if test="empId != null">

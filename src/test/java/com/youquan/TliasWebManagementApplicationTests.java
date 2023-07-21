@@ -1,19 +1,27 @@
 package com.youquan;
 
-import com.mysql.cj.log.Log;
+import com.youquan.controller.DeptController;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-// @SpringBootTest
+@Slf4j
+@SpringBootTest
 class TliasWebManagementApplicationTests {
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Test
     void contextLoads() {
@@ -54,5 +62,34 @@ class TliasWebManagementApplicationTests {
 
         // 将声明信息打印到控制台
         System.out.println(claims);
+    }
+
+    @Test
+    public void testGetBean() {
+        // 根据name获取Bean
+        DeptController deptController = (DeptController) applicationContext.getBean("deptController");
+        log.info("获取Bean对象方式一：{}", deptController);
+
+        // 根据bean的类型获取
+        DeptController deptController2 = applicationContext.getBean(DeptController.class);
+        log.info("获取Bean对象方式二：{}", deptController2);
+
+        // 根据bean的名称 及 类型获取
+        DeptController deptController3 = applicationContext.getBean("deptController", DeptController.class);
+        log.info("获取Bean对象方式三：{}", deptController3);
+    }
+
+
+    @Autowired
+    private SAXReader saxReader;
+
+    @Test
+    public void testThirdBean() throws DocumentException {
+        Document document = saxReader.read(this.getClass().getClassLoader().getResource("1.xml"));
+        Element rootElement = document.getRootElement();
+        String name = rootElement.element("name").getText();
+        String age = rootElement.element("age").getText();
+
+        log.info(name + "：" + age);
     }
 }

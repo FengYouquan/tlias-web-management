@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youquan.mapper.StudentMapper">
+    <!--添加学员信息-->
+    <insert id="save">
+        insert into student (name, student_number, gender, phone, highest_degree, classes_id, create_time, update_time)
+        values (#{name}, #{studentNumber}, #{gender}, #{phone}, #{highestDegree}, #{classesId}, #{createTime},
+                #{updateTime})
+    </insert>
+
+    <!--更新学员信息-->
+    <update id="update">
+        update student
+        <set>
+            <if test="name !=null and name != '' ">
+                name = #{name}
+            </if>
+            <if test="studentNumber !=null and studentNumber != '' ">
+                student_number = #{studentNumber}
+            </if>
+            <if test="gender !=null ">
+                gender = #{gender}
+            </if>
+            <if test="phone !=null and phone != '' ">
+                phone = #{phone}
+            </if>
+            <if test="highestDegree !=null ">
+                highest_degree = #{highestDegree}
+            </if>
+            <if test="classesId !=null ">
+                classes_id = #{classesId}
+            </if>
+            <if test="updateTime !=null ">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--条件查询学员列表数据-->
+    <select id="list" resultMap="student_class">
+        select student.id,
+        student.name,
+        student.student_number as s_number,
+        student.gender,
+        student.phone,
+        student.highest_degree,
+        student.discipline_times,
+        student.discipline_score,
+        student.update_time,
+        classes.id as c_id,
+        classes.name as c_name
+        from student
+        left outer join classes on student.classes_id = classes.id
+        <where>
+            <if test="name != null and name != '' ">
+                student.name like concat('%',#{name},'%')
+            </if>
+            <if test="highestDegree != null ">
+                highest_degree = #{highestDegree})
+            </if>
+            <if test="classesId != null ">
+                classes_id = #{classesId})
+            </if>
+            <if test="studentNumber != null and studentNumber != '' ">
+                s_number = #{studentNumber})
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <resultMap id="student_class" type="com.youquan.pojo.StudentClass">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="student_number" property="studentNumber"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="highest_degree" property="highestDegree"/>
+        <result column="discipline_times" property="disciplineTimes"/>
+        <result column="discipline_score" property="disciplineScore"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="clazz" javaType="com.youquan.pojo.Clazz">
+            <id column="c_id" property="id"/>
+            <result column="c_name" property="name"/>
+        </association>
+    </resultMap>
+</mapper>

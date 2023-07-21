@@ -2,6 +2,7 @@ package com.youquan.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.youquan.anno.OperateLog;
 import com.youquan.common.PageBean;
 import com.youquan.mapper.EmpMapper;
 import com.youquan.pojo.Emp;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * @author Fengyouquan
+ */
 @Service
 public class EmpServiceImpl implements EmpService {
     private final EmpMapper empMapper;
@@ -31,11 +35,13 @@ public class EmpServiceImpl implements EmpService {
         return new PageBean<>(empPage.getTotal(), empPage.getResult());
     }
 
+    @OperateLog
     @Override
     public void delete(Integer[] ids) {
         empMapper.delete(ids);
     }
 
+    @OperateLog
     @Override
     public void save(Emp emp) {
         emp.setPassword("123456");
@@ -52,6 +58,7 @@ public class EmpServiceImpl implements EmpService {
         return empMapper.getById(id);
     }
 
+    @OperateLog
     @Override
     public void update(Emp emp) {
         emp.setUpdateTime(LocalDateTime.now());

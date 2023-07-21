@@ -1,7 +1,5 @@
 package com.youquan.controller;
 
-import com.youquan.anno.MyAnnotation;
-import com.youquan.anno.OperateLog;
 import com.youquan.common.Result;
 import com.youquan.pojo.Dept;
 import com.youquan.service.DeptService;
@@ -28,7 +26,6 @@ public class DeptController {
      *
      * @return Result<List < Dept>>
      */
-    @MyAnnotation
     @GetMapping
     public Result<List<Dept>> list() {
         log.info("查询所有部门数据");
@@ -44,7 +41,6 @@ public class DeptController {
      * @return 操作结果
      */
 
-    @OperateLog
     @DeleteMapping("/{id}")
     public Result<?> removeById(@PathVariable Integer id) {
         // 记录日志，输出要删除的部门ID
@@ -64,7 +60,6 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result<?>
      */
-    @OperateLog
     @PostMapping
     public Result<?> save(@RequestBody Dept dept) {
         log.info("添加部门数据，dept:{}", dept);
@@ -78,7 +73,6 @@ public class DeptController {
      * @param id 部门ID
      * @return Result<Dept>
      */
-    @MyAnnotation
     @GetMapping("/{id}")
     public Result<Dept> getById(@PathVariable Integer id) {
         log.info("根据ID查询部门数据,id:{}", id);
@@ -92,7 +86,6 @@ public class DeptController {
      * @param dept 部门数据
      * @return Result
      */
-    @OperateLog
     @PutMapping
     public Result<?> update(@RequestBody Dept dept) {
         log.info("修改部门数据，dept:{}", dept);

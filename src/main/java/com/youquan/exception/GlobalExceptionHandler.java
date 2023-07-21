@@ -12,9 +12,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ClassException.class)
-    public Result<?> handleClassException(ClassException classException) {
-        log.error(classException.getMessage(), classException);
-        return Result.error(classException.getMessage());
+    @ExceptionHandler(Exception.class)
+    public Result<?> handleException(Exception exception) {
+        log.error(exception.getMessage(), exception);
+        return Result.error("系统繁忙，请稍后再试");
+    }
+
+    @ExceptionHandler(TliasException.class)
+    public Result<?> handleClassException(TliasException tliasException) {
+        log.error(tliasException.getMessage(), tliasException);
+        return Result.error(tliasException.getMessage());
     }
 }

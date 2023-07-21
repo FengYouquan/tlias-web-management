@@ -10,11 +10,11 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class ClassException extends RuntimeException {
+public class TliasException extends RuntimeException {
     private String code;
     private String message;
 
-    public ClassException(String message) {
+    public TliasException(String message) {
         this.message = message;
     }
 }
