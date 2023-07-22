@@ -9,11 +9,15 @@ import com.youquan.mapper.EmpMapper;
 import com.youquan.pojo.Emp;
 import com.youquan.pojo.NameValue;
 import com.youquan.service.EmpService;
+import com.youquan.utils.JwtUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -88,5 +92,30 @@ public class EmpServiceImpl implements EmpService {
             }
         }
         return countByGender;
+    }
+
+    @Override
+    public void password(HashMap<String, String> password, String token) {
+        String password1 = password.get("password").trim();
+        String password2 = password.get("rePassword").trim();
+        if (!(Objects.equals(password1, password2))) {
+            throw new TliasException("200", "您输入的两次密码不一致，请检查后重试");
+        }
+        Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
+        String password3 = empMapper.getPasswordById(id);
+        if (Objects.equals(password3, password1)) {
+            throw new TliasException("200", "新密码不能和旧密码相同");
+        }
+        if (!(empMapper.password(id, password1) == 1)) {
+            throw new TliasException("500", "密码修改失败，请稍后再试");
+        }
+    }
+
+    @Override
+    public void signOut(Integer id) {
+        if (id == null) {
+            throw new TliasException("200", "注销失败，请稍后再试");
+        }
+        empMapper.delete(new Integer[]{id});
     }
 }

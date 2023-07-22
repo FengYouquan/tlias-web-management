@@ -25,6 +25,7 @@
                 and finish_time &lt;= #{end}
             </if>
         </where>
+        order by classes.update_time desc
     </select>
     <resultMap id="class_emp" type="com.youquan.pojo.ClassEmp">
         <id column="id" property="id"/>

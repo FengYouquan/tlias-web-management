@@ -140,6 +140,7 @@ public class StudentServiceImpl implements StudentService {
             throw new TliasException("200", "学员手机号信息不准确，请检查后重试");
         }
 
+
         Short highestDegree = student.getHighestDegree();
         if (highestDegree != null && (highestDegree < 1 || highestDegree > 6)) {
             throw new TliasException("200", "学员最高学历信息不准确，请检查后重试");
@@ -154,7 +155,10 @@ public class StudentServiceImpl implements StudentService {
         }
 
         Integer classesId = student.getClassesId();
-        if (classesId != null && !(classMapper.countById(classesId) > 0)) {
+        if (classesId == null) {
+            throw new TliasException("200", "所属班级信息不准确，请检查后重试");
+        }
+        if (!(classMapper.countById(classesId) > 0)) {
             throw new TliasException("200", "班级信息不存在，请检查后重试");
         }
 

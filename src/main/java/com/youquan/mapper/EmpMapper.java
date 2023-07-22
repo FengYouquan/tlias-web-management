@@ -6,6 +6,7 @@ import com.youquan.pojo.NameValue;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -79,4 +80,10 @@ public interface EmpMapper {
     List<NameValue> countByGender();
 
     String getDeptNameById(Integer id);
+
+    @Update("update emp set password = #{password1} where id = #{id}")
+    int password(Integer id, String password1);
+
+    @Select("select password from emp where id = #{id}")
+    String getPasswordById(Integer id);
 }

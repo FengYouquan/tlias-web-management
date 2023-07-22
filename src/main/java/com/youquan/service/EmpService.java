@@ -3,8 +3,10 @@ package com.youquan.service;
 import com.youquan.common.PageBean;
 import com.youquan.pojo.Emp;
 import com.youquan.pojo.NameValue;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,4 +65,8 @@ public interface EmpService {
     Emp login(String username, String password);
 
     List<NameValue> countByGender();
+
+    void password(HashMap<String, String> password, String token);
+
+    void signOut(Integer id);
 }

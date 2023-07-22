@@ -7,14 +7,17 @@ import com.youquan.common.PageBean;
 import com.youquan.exception.TliasException;
 import com.youquan.mapper.ClassMapper;
 import com.youquan.mapper.EmpMapper;
+import com.youquan.mapper.StudentMapper;
 import com.youquan.pojo.ClassEmp;
 import com.youquan.pojo.Clazz;
 import com.youquan.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -24,6 +27,7 @@ import java.time.LocalDateTime;
 public class ClassServiceImpl implements ClassService {
     private final ClassMapper classMapper;
     private final EmpMapper empMapper;
+    private final StudentMapper studentMapper;
 
 
     /**
@@ -60,6 +64,11 @@ public class ClassServiceImpl implements ClassService {
         if (name == null) {
             throw new TliasException("200", "班级名称不完整，请检查后重试");
         }
+
+        if (!(name.trim().matches("^[\\u4e00-\\u9fa5_a-zA-Z0-9]{4,30}$"))) {
+            throw new TliasException("200", "班级名称非法，请检查后重试");
+        }
+
         // 检查数据库中是否已经存在同名的班级信息，如果存在则抛出异常
         if (classMapper.countByName(name) > 0) {
             throw new TliasException("200", "班级信息已存在，无需重复添加");
@@ -68,6 +77,22 @@ public class ClassServiceImpl implements ClassService {
         Integer empId = clazz.getEmpId();
         if (empId != null && !(empMapper.countById(empId) > 0)) {
             throw new TliasException("200", "班主任信息不准确，请检查后重试");
+        }
+
+        String classesNumber = clazz.getClassesNumber();
+        if (classesNumber != null) {
+            if (!classesNumber.trim().matches("^[\\u4e00-\\u9fa5_a-zA-Z0-9]{1,20}$")) {
+                throw new TliasException("200", "教室编号非法，请检查后重试");
+            }
+
+            List<Clazz> clazzes = classMapper.getByClassNumber(classesNumber);
+            if (clazzes != null) {
+                for (Clazz classDb : clazzes) {
+                    if (classDb.getFinishTime().isAfter(clazz.getStartTime()) && classDb.getStartTime().isBefore(clazz.getFinishTime())) {
+                        throw new TliasException("200", "当前教室在开课周期内，已被" + classDb.getName() + "占用，请检查后重试");
+                    }
+                }
+            }
         }
 
 
@@ -87,12 +112,20 @@ public class ClassServiceImpl implements ClassService {
      * @param id 班级ID
      */
     @OperateLog
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void remove(Integer id) {
         // 如果id为空或者在数据库中不存在对应的记录数大于0,抛出一个自定义的异常，提示班级ID不存在
         if (id == null || !(classMapper.countById(id) > 0)) {
             throw new TliasException("200", "班级ID不存在，请检查后重试");
         }
+
+        if (classMapper.getById(id).getFinishTime().isAfter(LocalDate.now())) {
+            throw new TliasException("200", "班级尚未结课，无法删除");
+        }
+
+        studentMapper.deleteByClassId(id);
+
         // 从数据库中删除对应id的记录，如果删除失败，抛出一个自定义的异常，提示班级信息删除失败
         if (!(classMapper.remove(id) == 1)) {
             throw new TliasException("500", "班级信息删除失败，请稍后再试");
@@ -109,11 +142,41 @@ public class ClassServiceImpl implements ClassService {
             // 如果开始时间不在结束时间之前，抛出自定义异常
             throw new TliasException("200", "开课时间和结课时间不合理，请检查后重试");
         }
+        Integer id = clazz.getId();
+        if (id == null) {
+            throw new TliasException("200", "班级信息修改失败");
+        }
 
         Integer empId = clazz.getEmpId();
         if (empId != null && !(empMapper.countById(empId) > 0)) {
             throw new TliasException("200", "班主任信息不准确，请检查后重试");
         }
+        String name = clazz.getName();
+        if (name != null) {
+            if (!(name.trim().matches("^[\\u4e00-\\u9fa5_a-zA-Z0-9]{4,30}$"))) {
+                throw new TliasException("200", "班级名称非法，请检查后重试");
+            }
+
+            if (classMapper.countByNameButId(id, name) > 0) {
+                throw new TliasException("200", "班级名称冲突，请检查后重试");
+            }
+        }
+
+        String classesNumber = clazz.getClassesNumber();
+        if (classesNumber != null) {
+            if (!classesNumber.trim().matches("^[\\u4e00-\\u9fa5_a-zA-Z0-9]{1,20}$")) {
+                throw new TliasException("200", "教室编号非法，请检查后重试");
+            }
+            List<Clazz> clazzes = classMapper.getByClassNumberButId(id, classesNumber);
+            if (clazzes != null) {
+                for (Clazz classDb : clazzes) {
+                    if (classDb.getFinishTime().isAfter(clazz.getStartTime()) && classDb.getStartTime().isBefore(clazz.getFinishTime())) {
+                        throw new TliasException("200", "当前教室在开课周期内，已被" + classDb.getName() + "占用，请检查后重试");
+                    }
+                }
+            }
+        }
+
 
         clazz.setUpdateTime(LocalDateTime.now());
 

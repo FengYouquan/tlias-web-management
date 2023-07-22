@@ -36,8 +36,11 @@ public interface StudentMapper {
     Page<StudentClass> list(String name, Short highestDegree, Integer classesId, String studentNumber);
 
 
-    @Update("update student set discipline_times = discipline_times+1, discipline_score = discipline_score+#{disciplineScore} where id = #{id}")
+    @Update("update student set discipline_times = discipline_times+1, discipline_score = discipline_score+#{disciplineScore},update_time =now() where id = #{id}")
     int updateDeductionPoint(Integer id, Integer disciplineScore);
 
     List<NameValue> countByHighestDegree();
+
+    @Delete("delete  from student where classes_id = #{classId}")
+    void deleteByClassId(Integer classId);
 }

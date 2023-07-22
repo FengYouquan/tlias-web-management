@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -76,4 +77,13 @@ public interface ClassMapper {
      */
     @Select("select id, name, classes_number, start_time, finish_time, emp_id, update_time from classes where id = #{id}")
     Clazz getById(Integer id);
+
+    @Select("select  name, classes_number, start_time, finish_time from classes where classes_number = #{classesNumber}")
+    List<Clazz> getByClassNumber(String classesNumber);
+
+    @Select("select count(*) from classes where id <> #{id} and name = #{name}")
+    int countByNameButId(Integer id, String name);
+
+    @Select("select  name, classes_number, start_time, finish_time from classes where id <> #{id} and classes_number = #{classesNumber} ")
+    List<Clazz> getByClassNumberButId(Integer id, String classesNumber);
 }

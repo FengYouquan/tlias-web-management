@@ -6,6 +6,7 @@ import com.youquan.common.Result;
 import com.youquan.pojo.Emp;
 import com.youquan.pojo.NameValue;
 import com.youquan.service.EmpService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -111,4 +112,5 @@ public class EmpController {
         List<NameValue> countByGender = empService.countByGender();
         return Result.success(countByGender);
     }
+
 }

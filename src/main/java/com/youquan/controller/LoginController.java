@@ -46,6 +46,14 @@ public class LoginController {
         return Result.error("登录失败，用户名或密码错误！");
     }
 
+    @PostMapping("/password")
+    public Result<?> password(@RequestBody HashMap<String, String> password, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Token");
+        log.info("修改密码：{},{}", password, token);
+        empService.password(password, token);
+        return Result.success();
+    }
+
     @GetMapping("/index")
     public Result<String> index(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader("Token");
@@ -53,5 +61,15 @@ public class LoginController {
         Claims claims = JwtUtils.parseJWT(token);
         String name = (String) claims.get("name");
         return Result.success(name);
+    }
+
+    @GetMapping("/signout")
+    public Result<?> signOut(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Token");
+        log.info("用户注销：{}", token);
+        Claims claims = JwtUtils.parseJWT(token);
+        Integer id = (Integer) claims.get("id");
+        empService.signOut(id);
+        return Result.success();
     }
 }
