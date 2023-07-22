@@ -1,12 +1,12 @@
 package com.youquan.mapper;
 
 import com.github.pagehelper.Page;
+import com.youquan.pojo.NameValue;
 import com.youquan.pojo.Student;
 import com.youquan.pojo.StudentClass;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -34,4 +34,10 @@ public interface StudentMapper {
     Student getById(Integer id);
 
     Page<StudentClass> list(String name, Short highestDegree, Integer classesId, String studentNumber);
+
+
+    @Update("update student set discipline_times = discipline_times+1, discipline_score = discipline_score+#{disciplineScore} where id = #{id}")
+    int updateDeductionPoint(Integer id, Integer disciplineScore);
+
+    List<NameValue> countByHighestDegree();
 }

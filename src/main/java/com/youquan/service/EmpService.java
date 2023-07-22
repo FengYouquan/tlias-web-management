@@ -2,8 +2,10 @@ package com.youquan.service;
 
 import com.youquan.common.PageBean;
 import com.youquan.pojo.Emp;
+import com.youquan.pojo.NameValue;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -59,4 +61,6 @@ public interface EmpService {
      * @return Emp 员工数据
      */
     Emp login(String username, String password);
+
+    List<NameValue> countByGender();
 }

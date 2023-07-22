@@ -95,4 +95,18 @@
         where id = #{id}
     </update>
 
+    <!--根据性别统计员工数量-->
+    <select id="countByGender" resultType="com.youquan.pojo.NameValue">
+        select gender name, count(*) value
+        from emp
+        group by gender
+    </select>
+
+    <!--根据员工ID查询部门信息-->
+    <select id="getDeptNameById" resultType="java.lang.String">
+        select d.name
+        from emp e
+                 left outer join dept d on e.dept_id = d.id
+        where e.id = #{id};
+    </select>
 </mapper>

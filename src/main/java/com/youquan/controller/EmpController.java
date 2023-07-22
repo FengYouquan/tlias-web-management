@@ -4,6 +4,7 @@ import com.youquan.anno.OperateLog;
 import com.youquan.common.PageBean;
 import com.youquan.common.Result;
 import com.youquan.pojo.Emp;
+import com.youquan.pojo.NameValue;
 import com.youquan.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -101,5 +103,12 @@ public class EmpController {
         log.info("更新员工数据，emp：{}", emp);
         empService.update(emp);
         return Result.success();
+    }
+
+    @GetMapping("/count")
+    public Result<List<NameValue>> countByGender() {
+        log.info("根据性别统计员工数量");
+        List<NameValue> countByGender = empService.countByGender();
+        return Result.success(countByGender);
     }
 }

@@ -4,13 +4,17 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.youquan.anno.OperateLog;
 import com.youquan.common.PageBean;
+import com.youquan.exception.TliasException;
 import com.youquan.mapper.EmpMapper;
 import com.youquan.pojo.Emp;
+import com.youquan.pojo.NameValue;
 import com.youquan.service.EmpService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Fengyouquan
@@ -68,5 +72,21 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Emp login(String username, String password) {
         return empMapper.getByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    public List<NameValue> countByGender() {
+        List<NameValue> countByGender = empMapper.countByGender();
+        if (!(countByGender.size() == 2)) {
+            throw new TliasException("500", "根据性别统计出错，请稍后再试");
+        }
+        for (NameValue nameValue : countByGender) {
+            if (Objects.equals(nameValue.getName(), "1")) {
+                nameValue.setName("男");
+            } else {
+                nameValue.setName("女");
+            }
+        }
+        return countByGender;
     }
 }

@@ -4,7 +4,10 @@ import com.youquan.common.Result;
 import com.youquan.pojo.Emp;
 import com.youquan.service.EmpService;
 import com.youquan.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,5 +44,14 @@ public class LoginController {
         }
 
         return Result.error("登录失败，用户名或密码错误！");
+    }
+
+    @GetMapping("/index")
+    public Result<String> index(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Token");
+        log.info("正在登录Tlias教学管理系统,携带Token值为：{}", token);
+        Claims claims = JwtUtils.parseJWT(token);
+        String name = (String) claims.get("name");
+        return Result.success(name);
     }
 }

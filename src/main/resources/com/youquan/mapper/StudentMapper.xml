@@ -15,25 +15,25 @@
         update student
         <set>
             <if test="name !=null and name != '' ">
-                name = #{name}
+                name = #{name},
             </if>
             <if test="studentNumber !=null and studentNumber != '' ">
-                student_number = #{studentNumber}
+                student_number = #{studentNumber},
             </if>
             <if test="gender !=null ">
-                gender = #{gender}
+                gender = #{gender},
             </if>
             <if test="phone !=null and phone != '' ">
-                phone = #{phone}
+                phone = #{phone},
             </if>
             <if test="highestDegree !=null ">
-                highest_degree = #{highestDegree}
+                highest_degree = #{highestDegree},
             </if>
             <if test="classesId !=null ">
-                classes_id = #{classesId}
+                classes_id = #{classesId},
             </if>
             <if test="updateTime !=null ">
-                update_time = #{updateTime}
+                update_time = #{updateTime},
             </if>
         </set>
         where id = #{id}
@@ -41,31 +41,31 @@
 
     <!--条件查询学员列表数据-->
     <select id="list" resultMap="student_class">
-        select student.id,
-        student.name,
-        student.student_number as s_number,
-        student.gender,
-        student.phone,
-        student.highest_degree,
-        student.discipline_times,
-        student.discipline_score,
-        student.update_time,
-        classes.id as c_id,
-        classes.name as c_name
-        from student
-        left outer join classes on student.classes_id = classes.id
+        select s.id ,
+        s.name ,
+        s.student_number ,
+        s.gender ,
+        s.phone ,
+        s.highest_degree ,
+        s.discipline_times ,
+        s.discipline_score ,
+        s.update_time ,
+        c.id as cid,
+        c.name as cname
+        from student s
+        left outer join classes c on s.classes_id = c.id
         <where>
             <if test="name != null and name != '' ">
-                student.name like concat('%',#{name},'%')
+                s.name like concat('%',#{name},'%')
             </if>
             <if test="highestDegree != null ">
-                highest_degree = #{highestDegree})
+                and highest_degree = #{highestDegree}
             </if>
             <if test="classesId != null ">
-                classes_id = #{classesId})
+                and classes_id = #{classesId}
             </if>
             <if test="studentNumber != null and studentNumber != '' ">
-                s_number = #{studentNumber})
+                and s.student_number like concat('%',#{studentNumber},'%')
             </if>
         </where>
         order by update_time desc
@@ -81,8 +81,16 @@
         <result column="discipline_score" property="disciplineScore"/>
         <result column="update_time" property="updateTime"/>
         <association property="clazz" javaType="com.youquan.pojo.Clazz">
-            <id column="c_id" property="id"/>
-            <result column="c_name" property="name"/>
+            <id column="cid" property="id"/>
+            <result column="cname" property="name"/>
         </association>
     </resultMap>
+
+    <!--根据性别统计员工数量-->
+    <select id="countByHighestDegree" resultType="com.youquan.pojo.NameValue">
+        select highest_degree name, count(*) value
+        from student
+        group by highest_degree
+    </select>
+
 </mapper>

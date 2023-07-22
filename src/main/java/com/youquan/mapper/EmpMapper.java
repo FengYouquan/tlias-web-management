@@ -2,11 +2,13 @@ package com.youquan.mapper;
 
 import com.github.pagehelper.Page;
 import com.youquan.pojo.Emp;
+import com.youquan.pojo.NameValue;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Fengyouquan
@@ -73,4 +75,8 @@ public interface EmpMapper {
 
     @Select("select count(*) from emp where id = #{id}")
     int countById(Integer id);
+
+    List<NameValue> countByGender();
+
+    String getDeptNameById(Integer id);
 }

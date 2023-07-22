@@ -2,11 +2,13 @@ package com.youquan.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.youquan.anno.CheckPermission;
 import com.youquan.anno.OperateLog;
 import com.youquan.common.PageBean;
 import com.youquan.exception.TliasException;
 import com.youquan.mapper.ClassMapper;
 import com.youquan.mapper.StudentMapper;
+import com.youquan.pojo.NameValue;
 import com.youquan.pojo.Student;
 import com.youquan.pojo.StudentClass;
 import com.youquan.service.StudentService;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +29,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
     private final ClassMapper classMapper;
 
+    @CheckPermission
     @OperateLog
     @Override
     public void remove(Integer id) {
@@ -39,6 +43,7 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+    @CheckPermission
     @OperateLog
     @Override
     public void update(Student student) {
@@ -95,6 +100,7 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
+    @CheckPermission
     @OperateLog
     @Override
     public void save(Student student) {
@@ -175,5 +181,38 @@ public class StudentServiceImpl implements StudentService {
         Page<StudentClass> studentPage = studentMapper.list(name, highestDegree, classesId, studentNumber);
 
         return new PageBean<>(studentPage.getTotal(), studentPage.getResult());
+    }
+
+    @CheckPermission
+    @OperateLog
+    @Override
+    public void updateDeductionPoint(Integer id, Integer disciplineScore) {
+        if (id == null || !(studentMapper.countById(id) > 0)) {
+            throw new TliasException("200", "违纪扣分失败，请稍后再试");
+        }
+
+        if (!(studentMapper.updateDeductionPoint(id, disciplineScore) == 1)) {
+            throw new TliasException("500", "违纪扣分失败，请稍后再试");
+        }
+    }
+
+    @Override
+    public List<NameValue> countByHighestDegree() {
+        List<NameValue> countByHighestDegree = studentMapper.countByHighestDegree();
+        if (!(countByHighestDegree.size() <= 6)) {
+            throw new TliasException("500", "根据最高学历统计出错，请稍后再试");
+        }
+        for (NameValue nameValue : countByHighestDegree) {
+            switch (nameValue.getName()) {
+                case "1" -> nameValue.setName("初中");
+                case "2" -> nameValue.setName("高中");
+                case "3" -> nameValue.setName("大专");
+                case "4" -> nameValue.setName("本科");
+                case "5" -> nameValue.setName("硕士");
+                case "6" -> nameValue.setName("博士");
+                default -> throw new TliasException("500", "根据最高学历统计出错，请稍后再试");
+            }
+        }
+        return countByHighestDegree;
     }
 }
