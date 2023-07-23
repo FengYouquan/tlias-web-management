@@ -3,7 +3,6 @@ package com.youquan.service;
 import com.youquan.common.PageBean;
 import com.youquan.pojo.Emp;
 import com.youquan.pojo.NameValue;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -64,9 +63,25 @@ public interface EmpService {
      */
     Emp login(String username, String password);
 
+    /**
+     * 根据性别统计员工数量
+     *
+     * @return List 键值对集合对象
+     */
     List<NameValue> countByGender();
 
+    /**
+     * 修改密码
+     *
+     * @param password 新密码
+     * @param token    Token
+     */
     void password(HashMap<String, String> password, String token);
 
+    /**
+     * 根据ID删除员工数据
+     *
+     * @param id 员工ID
+     */
     void signOut(Integer id);
 }

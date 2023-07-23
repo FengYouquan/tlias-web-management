@@ -74,16 +74,46 @@ public interface EmpMapper {
     @Delete("delete  from  emp where  dept_id = #{deptId}")
     void deleteByDeptId(Integer deptId);
 
+    /**
+     * 根据ID统计员工数量
+     *
+     * @param id 员工ID
+     * @return int 统计结果
+     */
     @Select("select count(*) from emp where id = #{id}")
     int countById(Integer id);
 
+    /**
+     * 根据性别统计数量
+     *
+     * @return 返回键值对集合
+     */
     List<NameValue> countByGender();
 
+    /**
+     * 根据ID获取部门名称
+     *
+     * @param id 部门ID
+     * @return String 部门名称
+     */
     String getDeptNameById(Integer id);
 
-    @Update("update emp set password = #{password1} where id = #{id}")
-    int password(Integer id, String password1);
+    /**
+     * 根据ID修改员工密码
+     *
+     * @param id       员工ID
+     * @param password 新密码
+     * @return int 影响的行数
+     */
+    @Update("update emp set password = #{password} where id = #{id}")
+    int password(Integer id, String password);
 
+    /**
+     * 根据员工ID获取登录密码
+     *
+     * @param id 员工ID
+     * @return String 密码
+     */
     @Select("select password from emp where id = #{id}")
     String getPasswordById(Integer id);
 }

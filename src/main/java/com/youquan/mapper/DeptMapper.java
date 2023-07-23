@@ -31,6 +31,12 @@ public interface DeptMapper {
     @Insert("insert into dept(name, create_time, update_time) VALUES (#{name},#{createTime},#{updateTime})")
     void save(Dept dept);
 
+    /**
+     * 根据ID获取部门名称
+     *
+     * @param id 部门ID
+     * @return Dept 班级对象
+     */
     @Select("select id, name from dept where id = #{id}")
     Dept getById(Integer id);
 
@@ -42,6 +48,12 @@ public interface DeptMapper {
     @Update("update dept set name = #{name},update_time = #{updateTime} where id = #{id}")
     void update(Dept dept);
 
+    /**
+     * 根据部门名称统计数量
+     *
+     * @param name 部门名称
+     * @return Integer 统计结果
+     */
     @Select("select count(*) from dept where name = #{name}")
     Integer countByName(String name);
 }

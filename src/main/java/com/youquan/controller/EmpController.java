@@ -106,10 +106,18 @@ public class EmpController {
         return Result.success();
     }
 
+    /**
+     * 根据性别统计员工数量
+     *
+     * @return 返回一个包含员工性别统计结果的Result对象
+     */
     @GetMapping("/count")
     public Result<List<NameValue>> countByGender() {
+        // 记录日志信息
         log.info("根据性别统计员工数量");
+        // 调用empService的countByGender方法获取员工性别统计结果
         List<NameValue> countByGender = empService.countByGender();
+        // 将统计结果封装到Result对象中并返回
         return Result.success(countByGender);
     }
 

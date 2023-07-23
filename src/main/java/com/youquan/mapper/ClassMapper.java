@@ -78,12 +78,32 @@ public interface ClassMapper {
     @Select("select id, name, classes_number, start_time, finish_time, emp_id, update_time from classes where id = #{id}")
     Clazz getById(Integer id);
 
+    /**
+     * 根据教室编号获取所有的班级信息
+     *
+     * @param classesNumber 教室编号
+     * @return List<Clazz> 班级集合
+     */
     @Select("select  name, classes_number, start_time, finish_time from classes where classes_number = #{classesNumber}")
     List<Clazz> getByClassNumber(String classesNumber);
 
+    /**
+     * 根据班级名称和排除的ID统计班级数量
+     *
+     * @param id   班级ID
+     * @param name 班级名称
+     * @return int 影响的行数
+     */
     @Select("select count(*) from classes where id <> #{id} and name = #{name}")
     int countByNameButId(Integer id, String name);
 
+    /**
+     * 根据教室编号和排除的ID获取班级列表
+     *
+     * @param id            班级ID
+     * @param classesNumber 教室编号
+     * @return List<Clazz> 班级集合
+     */
     @Select("select  name, classes_number, start_time, finish_time from classes where id <> #{id} and classes_number = #{classesNumber} ")
     List<Clazz> getByClassNumberButId(Integer id, String classesNumber);
 }
